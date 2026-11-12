@@ -1,0 +1,28 @@
+{
+  "name": "decksplice",
+  "version": "0.2.0",
+  "description": "CLI-first DJ library preparation toolkit",
+  "type": "module",
+  "bin": {
+    "decksplice": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "start": "node dist/cli.js",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}
