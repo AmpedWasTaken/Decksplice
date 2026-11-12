@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="Decksplice logo — lightning bolt and vinyl record" width="120" />
+
 # Decksplice
 
 **From playlist to decks.**
