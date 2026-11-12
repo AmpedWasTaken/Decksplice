@@ -39,7 +39,8 @@ Built for DJs who want less manual track hunting and more time behind the decks.
 | BPM / first-beat and structural cue estimation | Experimental |
 | rekordbox XML and M3U8 playlist export | Implemented; rekordbox import validation pending |
 | USB audio and M3U8 copying | Implemented |
-| Camelot key detection, spectral analysis, full TUI | Planned |
+| Musical key and Camelot notation | Experimental |
+| Spectral analysis and full TUI | Planned |
 
 ## Quick start
 
@@ -172,7 +173,7 @@ It verifies codec and decoding integrity, and rejects known lossy inputs. It can
 
 ### Can Decksplice generate hot cues automatically?
 
-Experimental first beat, drop, breakdown and outro estimates are available with `--analyze`. They are heuristic, not guaranteed to be musically correct. Key detection and full eight-slot cue generation are planned.
+Experimental first beat, drop, breakdown and outro estimates are available with `--analyze`. They are heuristic, not guaranteed to be musically correct. Musical key and Camelot notation are also estimated when the tonal confidence margin is sufficient. Percussion-heavy tracks may have no key result. Full eight-slot cue generation is planned.
 
 ## Roadmap
 
@@ -182,7 +183,8 @@ Experimental first beat, drop, breakdown and outro estimates are available with 
 - [x] Experimental BPM and structural cue detection
 - [ ] Cross-platform integration and live service validation
 - [ ] Interactive terminal dashboard and persistent library database
-- [ ] Camelot key, phrase-aware hot cues and spectral quality checks
+- [x] Experimental musical key and Camelot notation
+- [ ] Phrase-aware hot cues and spectral quality checks
 - [ ] Verified rekordbox import and additional DJ software export
 - [ ] Signed installers and package registry release
 
