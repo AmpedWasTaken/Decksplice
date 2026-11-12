@@ -4,7 +4,7 @@ import { resolve,join,basename } from 'node:path';
 import { mkdir,mkdtemp,rm,readdir,readFile,realpath,lstat,open } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { createInterface } from 'node:readline/promises';
-import { readPlaylist,writeCSV,scan,matchTrack,convert,verify,lossless,outputName,writeReport,rekordbox,exportUSB,formats,contains,fingerprint,exec,type Entry,type Format } from './core.js';
+import { readPlaylist,writeCSV,scan,matchTrack,convert,verify,lossless,outputName,writeReport,rekordbox,exportUSB,formats,contains,fingerprint,fileDigest,exec,type Entry,type Format } from './core.js';
 import { jamendo,discoveryLinks } from './providers.js';
 import { importSpotify } from './spotify.js';
 import { analyzeFile } from './analysis.js';
@@ -18,7 +18,7 @@ async function prepare(file:string,library:string|undefined,out:string,opt:Optio
  if(library){library=await realpath(library);if(contains(library,out)||contains(out,library))throw new Error('Library and output must be separate directories');}
  const lockPath=join(out,'.decksplice.lock');const lock=await open(lockPath,'wx');
  try{const id=fingerprint(tracks,opt.format),manifest=join(out,'manifest.json'),entries:Entry[]=tracks.map(track=>({track,status:'missing'}));
- if(opt.resume){const m=JSON.parse(await readFile(manifest,'utf8'));if(m.version!==2||m.id!==id||!Array.isArray(m.entries)||m.entries.length!==tracks.length)throw new Error('Resume requires original playlist and format');for(const [i,e] of (m.entries as Entry[]).entries()){const p=join(out,outputName(tracks[i],i,opt.format));if(e.status==='ready'&&e.output&&basename(e.output)===basename(p)&&(await lstat(p)).isFile()){const a=await verify(p);if(!lossless(a.codec)||!matchTrack(tracks[i],[a]).length)throw new Error('Prepared file changed: '+p);entries[i]={...e,track:tracks[i],output:p,audio:a};}}}
+ if(opt.resume){const m=JSON.parse(await readFile(manifest,'utf8'));if(m.version!==2||m.id!==id||!Array.isArray(m.entries)||m.entries.length!==tracks.length)throw new Error('Resume requires original playlist and format');for(const [i,e] of (m.entries as Entry[]).entries()){const p=join(out,outputName(tracks[i],i,opt.format));if(e.status==='ready'&&e.output&&basename(e.output)===basename(p)&&await exists(p)){if(!(await lstat(p)).isFile()||!e.sha256||await fileDigest(p)!==e.sha256)throw new Error('Prepared file changed or lacks checksum: '+p+'; prepare again in a new folder');const a=await verify(p);if(!lossless(a.codec))throw new Error('Prepared file is lossy: '+p);entries[i]={...e,track:tracks[i],output:p,audio:a};}}}
  else if((await readdir(out)).some(n=>n!=='.decksplice.lock'))throw new Error('Output folder must be empty; use --resume');
  const items=library?await scan(library,p=>console.error('Skipping unreadable file: '+clean(p))):[];console.log('Indexed '+items.length+' local files; '+tracks.length+' tracks');
  const provider=opt.remote&&key?jamendo(key):undefined;let next=0;let writes=Promise.resolve();
@@ -29,6 +29,7 @@ async function prepare(file:string,library:string|undefined,out:string,opt:Optio
  else if(good.length===1)e={...e,status:'ready',source:good[0].path,output,audio:await convert(good[0].path,output,opt.format,t)};
  else if(provider){const remote=await provider.search(t);if(remote.length>1)e={...e,status:'ambiguous',detail:'Multiple authorized matches'};else if(remote.length===1){temp=await mkdtemp(join(tmpdir(),'decksplice-'));const source=join(temp,'source.flac');await provider.download(remote[0],source);e={...e,status:'ready',source:remote[0].page,detail:remote[0].license,output,audio:await convert(source,output,opt.format,t)};}else e={...e,status:matches.length?'lossy':'missing',detail:'No authorized lossless match'};}
  else if(matches.length)e={...e,status:'lossy',detail:'Only lossy sources matched'};}
+ if(e.status==='ready'&&e.output&&!e.sha256)e.sha256=await fileDigest(e.output);
  if(opt.analysis&&e.status==='ready'&&e.audio&&e.output){try{e.analysis=await analyzeFile(e.output,e.audio.duration,opt.min,opt.max);}catch(err){e.detail='Analysis failed: '+String(err);}}
  }catch(err){e={track:t,status:'error',detail:String(err)};}finally{if(temp)await rm(temp,{recursive:true,force:true});}
  entries[i]=e;console.log((i+1)+'/'+tracks.length+' '+e.status.toUpperCase()+' '+clean(t.artist+' - '+t.title));await save();}}

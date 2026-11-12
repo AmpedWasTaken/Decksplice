@@ -148,7 +148,7 @@ prepared/
 └── rekordbox.xml
 ```
 
-AIFF and WAV output use 16-bit, 44.1 kHz stereo PCM for compatibility; FLAC retains source sample rate and channels where supported. This can reduce precision of higher-resolution masters, so keep originals. Files are not overwritten; use a clean output folder or resume the same playlist. After an unexpected shutdown, check for a stale lock and partial output before resuming.
+AIFF and WAV output use 16-bit, 44.1 kHz stereo PCM for compatibility; FLAC retains source sample rate and channels where supported. This can reduce precision of higher-resolution masters, so keep originals. Files are not overwritten; use a clean output folder or resume the same playlist. Prepared files are SHA-256 checked before resume and USB export, independently of unreliable AIFF/WAV tags. Older manifests without checksums must be rebuilt in a new output folder. After an unexpected shutdown, check for a stale lock and partial output before resuming.
 
 ## FAQ
 
