@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Decksplice logo</title>
+  <desc id="desc">A stylized vinyl record and lightning bolt mark for Decksplice.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="32" fill="#0b0d12"/>
+  <circle cx="128" cy="128" r="84" fill="none" stroke="#ffffff" stroke-width="7"/>
+  <circle cx="128" cy="128" r="62" fill="none" stroke="#5f6673" stroke-width="3.5" opacity="0.9"/>
+  <circle cx="128" cy="128" r="18" fill="#1ec971"/>
+  <path d="M79 188c-18-14-31-36-35-61" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M177 68c18 14 31 36 35 61" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M70 88c14-18 36-31 61-35" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M186 168c-14 18-36 31-61 35" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M148 42 99 119h31l-18 95 64-86h-33z" fill="#1ce56f" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M148 42 99 119h31l-18 95 64-86h-33z" fill="none" stroke="#0b0d12" stroke-width="2" stroke-linejoin="round" opacity="0.55"/>
+</svg>
