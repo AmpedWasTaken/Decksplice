@@ -24,5 +24,28 @@
     "README.md",
     "LICENSE"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmpedWasTaken/Decksplice.git"
+  },
+  "homepage": "https://github.com/AmpedWasTaken/Decksplice#readme",
+  "bugs": {
+    "url": "https://github.com/AmpedWasTaken/Decksplice/issues"
+  },
+  "keywords": [
+    "dj",
+    "spotify",
+    "rekordbox",
+    "flac",
+    "aiff",
+    "wav",
+    "lossless",
+    "playlist",
+    "usb",
+    "cdj",
+    "hot-cues",
+    "ffmpeg",
+    "cli"
+  ]
 }
